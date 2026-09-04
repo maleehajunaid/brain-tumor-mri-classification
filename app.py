@@ -2,12 +2,10 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 from PIL import Image
-import io
-from streamlit_paste_button import paste_image_button as pbutton
 
 st.set_page_config(page_title="Brain Tumor MRI Classifier", page_icon="🧠", layout="wide")
 st.title("🧠 Brain Tumor MRI Classifier")
-st.write("Upload, drag & drop, ya paste (Ctrl+V) karke brain MRI scan classify karein: glioma, meningioma, pituitary tumor, ya no tumor.")
+st.write("Upload or drag & drop a brain MRI scan to classify it as glioma, meningioma, pituitary tumor, or no tumor.")
 
 @st.cache_resource
 def load_model():
@@ -19,25 +17,14 @@ class_names = ['glioma', 'meningioma', 'notumor', 'pituitary']
 if "img" not in st.session_state:
     st.session_state.img = None
 
-# --- Input options ---
-tab1, tab2 = st.tabs(["📁 Upload / Drag & Drop", "📋 Paste Image"])
+uploaded_file = st.file_uploader(
+    "Choose an MRI image (or drag & drop it here)...",
+    type=["jpg", "jpeg", "png"],
+    key="file_uploader"
+)
 
-with tab1:
-    uploaded_file = st.file_uploader(
-        "Choose an MRI image (drag & drop bhi kar sakte hain)...",
-        type=["jpg", "jpeg", "png"],
-        key="file_uploader"
-    )
-    if uploaded_file is not None:
-        st.session_state.img = Image.open(uploaded_file).convert("RGB")
-
-with tab2:
-    paste_result = pbutton(
-        label="📋 Clipboard se Paste karein",
-        key="paste_button"
-    )
-    if paste_result.image_data is not None:
-        st.session_state.img = paste_result.image_data.convert("RGB")
+if uploaded_file is not None:
+    st.session_state.img = Image.open(uploaded_file).convert("RGB")
 
 col_clear1, col_clear2 = st.columns([1, 5])
 with col_clear1:
@@ -47,7 +34,7 @@ with col_clear1:
 
 st.divider()
 
-# --- Side by side layout: image left, prediction right ---
+# Side by side layout: image on the left, prediction on the right
 if st.session_state.img is not None:
     img = st.session_state.img
     left_col, right_col = st.columns(2)
@@ -72,6 +59,6 @@ if st.session_state.img is not None:
             for i, class_name in enumerate(class_names):
                 st.write(f"{class_name}: {prediction[0][i]:.2%}")
         else:
-            st.info("Left side pe **Predict** click karein result dekhne ke liye.")
+            st.info("Click **Predict** on the left to see the result here.")
 else:
-    st.info("Upload, drag & drop, ya paste karke shuru karein.")
+    st.info("Please upload or drag & drop an MRI image to get started.")
