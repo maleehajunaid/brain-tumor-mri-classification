@@ -6,33 +6,17 @@ from PIL import Image
 
 st.set_page_config(page_title="Brain Tumor MRI Classifier", page_icon="🧠", layout="wide")
 
-# ---- Custom styling ----
 st.markdown("""
     <style>
-    .main-title {
-        text-align: center;
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 0;
-    }
-    .subtitle {
-        text-align: center;
-        color: gray;
-        margin-bottom: 2rem;
-    }
-    .result-box {
-        padding: 1.5rem;
-        border-radius: 12px;
-        background-color: #1e2130;
-        border: 1px solid #333;
-    }
+    .main-title { text-align: center; font-size: 2.5rem; font-weight: 700; margin-bottom: 0; }
+    .subtitle { text-align: center; color: gray; margin-bottom: 2rem; }
+    .result-box { padding: 1.5rem; border-radius: 12px; background-color: #1e2130; border: 1px solid #333; }
     </style>
 """, unsafe_allow_html=True)
 
 st.markdown("<div class='main-title'>🧠 Brain Tumor MRI Classifier</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle'>Upload or drag & drop a brain MRI scan for instant AI-powered classification</div>", unsafe_allow_html=True)
 
-# ---- Sidebar info ----
 with st.sidebar:
     st.header("ℹ️ About")
     st.write("This tool classifies brain MRI scans into 4 categories using a deep learning model.")
@@ -51,11 +35,13 @@ class_icons = {'glioma': '🔴', 'meningioma': '🟠', 'notumor': '🟢', 'pitui
 
 if "img" not in st.session_state:
     st.session_state.img = None
+if "uploader_key" not in st.session_state:
+    st.session_state.uploader_key = 0
 
 uploaded_file = st.file_uploader(
     "Choose an MRI image (or drag & drop it here)...",
     type=["jpg", "jpeg", "png"],
-    key="file_uploader"
+    key=f"file_uploader_{st.session_state.uploader_key}"
 )
 
 if uploaded_file is not None:
@@ -65,6 +51,7 @@ col_clear1, col_clear2 = st.columns([1, 5])
 with col_clear1:
     if st.button("🔄 Clear"):
         st.session_state.img = None
+        st.session_state.uploader_key += 1
         st.rerun()
 
 st.divider()
@@ -88,10 +75,8 @@ if st.session_state.img is not None:
                 confidence = float(np.max(prediction))
 
             st.markdown("<div class='result-box'>", unsafe_allow_html=True)
-
             icon = class_icons[predicted_class]
             st.markdown(f"### {icon} Prediction: **{predicted_class.upper()}**")
-
             st.metric(label="Confidence", value=f"{confidence:.2%}")
             st.progress(confidence)
 
@@ -99,7 +84,6 @@ if st.session_state.img is not None:
                 st.success("No tumor detected in this scan.")
             else:
                 st.warning(f"Signs consistent with **{predicted_class}** detected.")
-
             st.markdown("</div>", unsafe_allow_html=True)
 
             st.subheader("📊 Class Probabilities")
