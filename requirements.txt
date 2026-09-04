@@ -2,4 +2,4 @@ streamlit
 tensorflow
 numpy
 pillow
-streamlit-paste-button
+
