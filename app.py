@@ -5,7 +5,7 @@ from PIL import Image
 
 st.set_page_config(page_title="Brain Tumor MRI Classifier", page_icon="🧠", layout="wide")
 st.title("🧠 Brain Tumor MRI Classifier")
-st.write("Upload or drag & drop a brain MRI scan to classify it as glioma, meningioma, pituitary tumor, or no tumor.")
+st.write("Upload a brain MRI scan to classify it as glioma, meningioma, pituitary tumor, or no tumor.")
 
 @st.cache_resource
 def load_model():
@@ -18,7 +18,7 @@ if "img" not in st.session_state:
     st.session_state.img = None
 
 uploaded_file = st.file_uploader(
-    "Choose an MRI image (or drag & drop it here)...",
+    "Choose an MRI image ",
     type=["jpg", "jpeg", "png"],
     key="file_uploader"
 )
