@@ -15,6 +15,20 @@ This project uses transfer learning for multiclass brain tumor classification fr
 
 Grad-CAM is also used to visualize the regions of MRI images that contribute to the model's predictions.
 
+## Dataset
+
+The project uses the Brain Tumor MRI Dataset obtained from Kaggle.
+
+Source: [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset) by Masoud Nickparvar (Kaggle)
+
+The dataset contains four classes:
+
+- Glioma
+- Meningioma
+- Pituitary
+- No Tumor
+
+The training directory is divided into 80% training data and 20% validation data. A separate testing directory is used for final evaluation.
 ## Methodology
 
 1. Load the Brain Tumor MRI Dataset.
@@ -46,18 +60,6 @@ Grad-CAM is also used to visualize the regions of MRI images that contribute to 
 ↓  
 **4 MRI Classes**
 
-## Dataset
-
-The project uses the Brain Tumor MRI Dataset obtained from Kaggle.
-
-The dataset contains four classes:
-
-- Glioma
-- Meningioma
-- Pituitary
-- No Tumor
-
-The training directory is divided into 80% training data and 20% validation data. A separate testing directory is used for final evaluation.
 
 ## Explainability with Grad-CAM
 
@@ -75,7 +77,14 @@ Brain MRI Dataset → Preprocessing → Data Augmentation → Training/Validatio
 
 The complete training process, evaluation results, and Grad-CAM visualizations are available in the Colab Notebook included in this repository.
 
+| Metric | Score |
+|---|---|
+| Training Accuracy | 96.76% |
+| Test Accuracy | 88.63% |
 
+## Conclusion
+
+This project demonstrates that transfer learning with a pretrained MobileNetV2 model can effectively classify brain tumor MRI scans into four categories, achieving 88.63% accuracy on unseen test data. The integration of Grad-CAM further adds interpretability, making the model's predictions more transparent and trustworthy for medical imaging applications.
 
 
 
