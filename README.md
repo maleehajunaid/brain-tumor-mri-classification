@@ -82,6 +82,15 @@ The complete training process, evaluation results, and Grad-CAM visualizations a
 | Training Accuracy | 96.76% |
 | Test Accuracy | 88.63% |
 
+## Grad-CAM Visualization
+
+![Grad-CAM Heatmap](gradcam_heatmap.png)
+
+## Confusion Matrix
+
+![Confusion Matrix](confusion_matrix.png)
+
+
 ## Conclusion
 
 This project demonstrates that transfer learning with a pretrained MobileNetV2 model can effectively classify brain tumor MRI scans into four categories, achieving 88.63% accuracy on unseen test data. The integration of Grad-CAM further adds interpretability, making the model's predictions more transparent and trustworthy for medical imaging applications.
